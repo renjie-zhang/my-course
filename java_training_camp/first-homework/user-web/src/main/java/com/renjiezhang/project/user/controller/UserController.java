@@ -15,21 +15,32 @@
  * limitations under the License.
  */
 
-package com.renjiezhang.project.user;
+package com.renjiezhang.project.user.controller;
 
 import com.renjiezhang.web.mvc.controller.PageController;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import java.io.IOException;
 
-@Path("/hello")
-public class HelloWorldController implements PageController {
-    @GET()
-    @Path("/world")
+@Path("/user_web_war/user")
+public class UserController implements PageController {
+
+    @Path("/singIn")
+    @POST
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
+        String email = request.getParameter("inputEmail");
+        String password = request.getParameter("inputPassword");
+        if(email != null){
+            request.setAttribute("email",email);
+        }
+        if(password != null) {
+            request.setAttribute("password", password);
+        }
         return "index.jsp";
     }
 }

@@ -6,6 +6,10 @@
 <body>
 	<div class="container-lg">
 		<!-- Content here -->
-		Hello,World 2021
+		Hello,This is your commit
+		<br>
+		<b>Email:</b><%=request.getAttribute("email")%>
+		<br>
+		<b>Password:</b><%=request.getAttribute("password")%>
 	</div>
 </body>

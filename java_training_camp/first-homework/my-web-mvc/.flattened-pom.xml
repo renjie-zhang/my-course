@@ -3,17 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.renjiezhang</groupId>
-    <artifactId>first-homework</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>org.geekbang.projects</groupId>
+    <artifactId>user-platform</artifactId>
+    <version>v1-SNAPSHOT</version>
   </parent>
-  <groupId>com.renjiezhang</groupId>
+  <groupId>org.geekbang.projects</groupId>
   <artifactId>my-web-mvc</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <properties>
-    <maven.compiler.target>11</maven.compiler.target>
-    <maven.compiler.source>11</maven.compiler.source>
-  </properties>
+  <version>v1-SNAPSHOT</version>
+  <name>My Web-MVC Framework ${revision}</name>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
