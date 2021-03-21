@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Annotation profile for .mvn (1)" enabled="true">
+        <sourceOutputDir name="../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name=".mvn (1)" />
+      </profile>
+      <profile name="Annotation profile for .mvn (2)" enabled="true">
+        <sourceOutputDir name="../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name=".mvn (2)" />
+      </profile>
+      <profile name="Annotation profile for Unknown" enabled="true">
+        <sourceOutputDir name="../../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="wrapper" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name=".mvn (1)" target="1.8" />
+      <module name=".mvn (2)" target="1.8" />
+      <module name="my-configuration" target="1.8" />
+      <module name="my-web-mvc" target="1.8" />
+      <module name="user-platform" target="1.8" />
+      <module name="user-web" target="1.8" />
+      <module name="wrapper" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="my-configuration" options="-proc:none -parameters" />
+      <module name="my-web-mvc" options="-proc:none -parameters" />
+      <module name="user-web" options="-proc:none -parameters" />
+    </option>
+  </component>
+</project>

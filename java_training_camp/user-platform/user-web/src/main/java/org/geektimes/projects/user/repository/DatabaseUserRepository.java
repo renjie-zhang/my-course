@@ -1,6 +1,7 @@
 package org.geektimes.projects.user.repository;
 
 import org.geektimes.function.ThrowableFunction;
+import org.geektimes.context.ComponentContext;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.sql.DBConnectionManager;
 
@@ -33,8 +34,8 @@ public class DatabaseUserRepository implements UserRepository {
 
     private final DBConnectionManager dbConnectionManager;
 
-    public DatabaseUserRepository(DBConnectionManager dbConnectionManager) {
-        this.dbConnectionManager = dbConnectionManager;
+    public DatabaseUserRepository() {
+        this.dbConnectionManager = ComponentContext.getInstance().getComponent("bean/DBConnectionManager");
     }
 
     private Connection getConnection() {
@@ -43,22 +44,7 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public boolean save(User user) {
-        Connection connection = getConnection();
-        if(connection == null){
-            COMMON_EXCEPTION_HANDLER.accept(new Throwable("CONNECTION IS NULL"));
-            return false;
-        }
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_DML_SQL);
-            preparedStatement.setObject(1,user.getName());
-            preparedStatement.setObject(2,user.getPassword());
-            preparedStatement.setObject(3,user.getEmail());
-            preparedStatement.setObject(4,user.getPhoneNumber());
-            return  preparedStatement.execute();
-        } catch (Throwable e) {
-            COMMON_EXCEPTION_HANDLER.accept(new Throwable("INSERT ERROR"));
-            return false;
-        }
+        return false;
     }
 
     @Override
@@ -80,27 +66,8 @@ public class DatabaseUserRepository implements UserRepository {
     public User getByNameAndPassword(String userName, String password) {
         return executeQuery("SELECT id,name,password,email,phoneNumber FROM users WHERE name=? and password=?",
                 resultSet -> {
-                    BeanInfo userBeanInfo = Introspector.getBeanInfo(User.class, Object.class);
-                    User user = new User();
-                    while (resultSet.next()){
-                        for (PropertyDescriptor propertyDescriptor : userBeanInfo.getPropertyDescriptors()) {
-                            String fieldName = propertyDescriptor.getName();
-                            Class fieldType = propertyDescriptor.getPropertyType();
-                            String methodName = resultSetMethodMappings.get(fieldType);
-                            // 可能存在映射关系（不过此处是相等的）
-                            String columnLabel = mapColumnLabel(fieldName);
-                            Method resultSetMethod = ResultSet.class.getMethod(methodName, String.class);
-                            // 通过放射调用 getXXX(String) 方法
-                            Object resultValue = resultSetMethod.invoke(resultSet, columnLabel);
-                            // 获取 User 类 Setter方法
-                            // PropertyDescriptor ReadMethod 等于 Getter 方法
-                            // PropertyDescriptor WriteMethod 等于 Setter 方法
-                            Method setterMethodFromUser = propertyDescriptor.getWriteMethod();
-                            // 以 id 为例，  user.setId(resultSet.getLong("id"));
-                            setterMethodFromUser.invoke(user, resultValue);
-                        }
-                    }
-                    return user;
+                    // TODO
+                    return new User();
                 }, COMMON_EXCEPTION_HANDLER, userName, password);
     }
 
@@ -128,12 +95,10 @@ public class DatabaseUserRepository implements UserRepository {
                     // 以 id 为例，  user.setId(resultSet.getLong("id"));
                     setterMethodFromUser.invoke(user, resultValue);
                 }
-                users.add(user);
             }
             return users;
         }, e -> {
             // 异常处理
-            COMMON_EXCEPTION_HANDLER.accept(e);
         });
     }
 
@@ -160,7 +125,7 @@ public class DatabaseUserRepository implements UserRepository {
 
                 // Boolean -> boolean
                 String methodName = preparedStatementMethodMappings.get(argType);
-                Method method = PreparedStatement.class.getMethod(methodName,int.class, wrapperType);
+                Method method = PreparedStatement.class.getMethod(methodName, wrapperType);
                 method.invoke(preparedStatement, i + 1, args);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
